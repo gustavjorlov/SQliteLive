@@ -4,9 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "copy": "cp src/index.html dist",
+    "build": "babel src -d dist && npm run copy",
+    "start": "node dist/app.js"
   },
   "keywords": [],
   "author": "Gustav <gustav.jorlov@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "sequelize": "^3.29.0",
+    "socket.io": "^1.7.2",
+    "sqlite3": "^3.1.8"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-3": "^6.17.0"
+  }
 }
