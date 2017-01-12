@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SQliteLive</title>
+  </head>
+  <body>
+    <h1>SQliteLive</h1>
+    <input id="tableName" />
+    <button id="fetchTable">Fetch table</button>
+    <table>
+      <thead id="t_head"></thead>
+      <tbody id="t_body"></tbody>
+    </table>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      $(function(){
+        var socket = io();
+
+        $("#fetchTable").click(function(){
+          socket.emit('set/table', $("#tableName").val());
+        });
+
+        socket.on('database/updated', function(tableData){
+          console.log(tableData);
+          if(tableData instanceof Array && tableData.length > 0){
+            $("#t_head").html(Object.keys(tableData[0]).map(function(key){
+              return '<th>'+key+'</th>';
+            }).join(""));
+
+            $("#t_body").html(tableData.map(function(row){
+              return '<tr>' + Object.keys(row).map(function(key){
+                return '<td>'+row[key]+'</td>';
+              }).join("") + '</tr>';
+            }).join(""));
+          } else {
+            $("#t_head").html("<th>empty</th>");
+            $("#t_body").html("<tr><td>result</td></tr>");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
